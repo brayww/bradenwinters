@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<!--
+WRITTEN BY: Braden Winters
+EMAIL: wintersb@uci.edu
+-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="Missed Harvest">
+  <meta name="author" content="Braden Winters">
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/jumbotron/">
+
+  <title>Braden Winters' FireGate</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+</head>
+<body style="background-color:#d5e5db">
+  <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#a1b3a8;">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.html" style="color:black">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div class="jumbotron" style="background-color:#c9dad0">
+    <div class="container">
+      <h1>FireGate</h1>
+      <div class="embed-responsive embed-responsive-16by9">
+        <video src="fgtrailer.mov" controls></video>
+      </div>
+      <h2>Strategy, Fantasy, RPG, Turnbased, Co-op, PvE</h2>
+      <p>Corruption has taken over the land and the nobles are no longer for the people. Team up to protect your fellow citizens and rise in power.
+      </p>
+      <a class="btn btn-primary btn-lg" role="button" style="background-color:#a1d7e5; color:black" href="https://docs.google.com/document/d/1EICZnZfdnTAYAceH27B0smNlYlZ1Fq6NbU9Q4w1ygoQ/edit?usp=sharing" target="blank">Game Design Document »</a>
+      <a class="btn btn-primary btn-lg" role="button" style="background-color:#a1d7e5; color:black" href="Builds.zip" target="blank">Download the Game »</a>
+    </div>
+  </div>
+  <div class="container" style="font-size:20px; text-indent:50px">
+    <p>FireGate was made for a class that taught design patterns. An exhaustive list of patterns we were taught include: singletons, prototypes, composite, decorator, chain of responsibility, observer, action, 
+      delegates, factories, navmesh, finite state machine, and behavior tree. Our game took inspiration from Fire Emblem and Baldur's Gate. 
+    </p>
+    <p>I was the lead designer and programmer on this project. I made the unit controller and player classes. I took inspiration from Baldur's Gate to make the unit controller. Units could move in a 3D space for a 
+      set amount of distance per turn. I originally used Unity's Vector3 MoveTowards to make the units move, but this had a lot of issues that I needed to solve. When the course taught us navmeshses, I refactored the 
+      controller to use them and this solved these issues such as units traversing non 2D terrain and getting unit velocity to calculate how far a unit had already moved during that turn.
+    </p>
+    <p>I also wrote the enemy AI and turn manager. The AI has three different behaviors that a designer can choose from in the Unity inspector. Hold position attacks the closest unit in range. Seek closest moves 
+      towards the closest enemy and attacks them if they are in range. Seek weakest moves towards the lowest health enemy and attacks them if they are in range. Singletons were used to give the AI a global list of 
+      units they could attack and also as a list of units they could move. I had also used coroutines before, but this taught me about how coroutines could wait for other coroutines. This was important in making 
+      sure the enemy AI moved its units sequentially and also properly wait until it had moved all of its units before ending its turn. 
+    </p>
+    <p>Additionally, I implemented Photon to make the game playable online. This was my first time writing networked code. I learned a lot about the ways Photon makes online easy and hard. For things like lobby 
+      creation and joining, and tracking unit transforms and animations, Photon's builtins were easy to use. The difficulty came when I needed Photon to make function calls appear on both clients, such as when a 
+      unit takes damage or dies. I was trying to make the unit health a Photon observable, so that it could be tracked at all times like the transforms and animations. However, this wasn't working properly. I solved 
+      this issue by using an RPC that told all other clients how much damage a unit had taken.
+    </p>
+    <p>Some other things I wanted to implement, but ran out of time were using the composite and factory patterns to make a party builder screen where the players could choose the units in their party and equip 
+      weapons. Theres code in the game using interfaces to pickup items and equip them, but is unused. The units are also supposed to have health bars above them.
+    </p>
+
+    <hr>
+
+    <footer style="font-size:14px; text-indent:0px">
+      <p>Email: bradenwin7@gmail.com</p>
+    </footer>
+  </div>
+</body>
+</html>
