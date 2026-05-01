@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<!--
+WRITTEN BY: Braden Winters
+EMAIL: wintersb@uci.edu
+-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="Missed Harvest">
+  <meta name="author" content="Braden Winters">
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/jumbotron/">
+
+  <title>Braden Winters' Road to Riches</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+</head>
+<body style="background-color:#d5e5db">
+  <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#a1b3a8;">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.html" style="color:black">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div class="jumbotron" style="background-color:#c9dad0">
+    <div class="container">
+      <h1>Notes App with AutoTranscribe</h1>
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/B9HT72GqO80?si=q0DEART8dw5T9B5x"></iframe>
+      </div>
+      <h2>Productivity, Studying, Machine Learning</h2>
+      <p>For people that like writing their notes rather than typing, but still want the convenience of having them in a digital format. Easily export to powerpoint or word for sharing.
+      </p>
+      <!--<a class="btn btn-primary btn-lg" role="button" style="background-color:#a1d7e5; color:black" href="https://docs.google.com/document/d/1EICZnZfdnTAYAceH27B0smNlYlZ1Fq6NbU9Q4w1ygoQ/edit?usp=sharing" target="blank">Game Design Document »</a>
+      <a class="btn btn-primary btn-lg" role="button" style="background-color:#a1d7e5; color:black" href="Builds.zip" target="blank">Download the Game »</a>-->
+    </div>
+  </div>
+  <div class="container" style="font-size:20px">
+    <h1>Notes App Retrospective</h1>
+ 
+    <h2>Objectives</h2>
+    <ul>
+      <li>To make a shippable application that involves training a machine learning model and deploying for use in the app. My interests lie in the computer vision and reinforcement learning domain, so I decided on a Notes App that automatically transcribes the user&rsquo;s writing.</li>
+      <li>To familiarize myself with AI tools and prompt engineering through the use of Claude Code.</li>
+    </ul>
+    
+    <h2>Features</h2>
+    
+    <h3>Drawing Canvas</h3>
+    <ul>
+      <li>Has all the basic features of a drawing app, including an in-program file save system.</li>
+      <li>The canvas is infinite and automatically adjusts the size of the canvas when a user draws outside the current bounds.</li>
+    </ul>
+    
+    <h3>Handwritten Text Recognition (HTR)</h3>
+    <ul>
+      <li>At the click of a button, the user can transcribe all the text written on the canvas.</li>
+      <li>Utilizes a model I trained on the IAM Online Dataset.</li>
+    </ul>
+    
+    <h3>Calibration</h3>
+    <ul>
+      <li>To increase HTR accuracy, I added a calibration feature to fine tune the model to their own handwriting.</li>
+      <li>Attempts to capture the essence of a user&rsquo;s characters and spacing through as little as 29 short phrases that include each English alphabetical character more than once. Machine learning often calls for as many samples as possible, but I wanted to make the calibration feature quick because no one wants to use an app they have to spend a long time setting up. Writing the phrases takes less than 10 minutes and the model fine tuning can take less than a minute depending on the user&rsquo;s computer.</li>
+    </ul>
+    
+    <h3>Exports and Smart Grouping</h3>
+    <ul>
+      <li>Supports exporting as png, docx, and pptx.</li>
+      <li>Uses indentation and list markers to group headers with bullets onto cards. This allows each card to be its own slide when exporting as a powerpoint. Cards can be easily rearranged or edited before exporting in case they are in the wrong order or the text is incorrect. These changes are preserved in the save.</li>
+    </ul>
+    
+    <h2>Models Trained</h2>
+    
+    <h3>IAM Offline</h3>
+    <ul>
+      <li>7.6% CER</li>
+      <li>7-conv CNN backbone &rarr; Reshape &rarr; 2&times; BiLSTM(256) &rarr; Dense(80). ~8.2M params.</li>
+      <li>This model predicted on images of lines from the app. Faced a domain gap due to the fact that the samples from the dataset were written on paper while the app used a digital canvas. The predictions were decent, but far from perfect.</li>
+    </ul>
+    
+    <h3>IAM Online</h3>
+    <ul>
+      <li>8.3% CER</li>
+      <li>BiLSTM+CTC: Dense(64, ReLU) input projection &rarr; BiLSTM(192) &rarr; Dropout(0.15) &rarr; BiLSTM(192) &rarr; Dense(80). Recurrent dropout 0.3. ~1.31M params. Greedy or width-10 beam search decode.</li>
+      <li>Predicts on stroke data rather than images. Predictions aren&rsquo;t perfect, but are at the level where they are useful.</li>
+      <li>Fine tuning feature works by only unfreezing the Dense output layer, then only training with the calibration samples.</li>
+    </ul>
+    
+    <h2>Learning and Challenges</h2>
+    
+    <h3>Claude</h3>
+    <ul>
+      <li>Claude is very good at rapid prototyping and often makes the described feature correctly on the first try. In addition, Claude can usually debug errors or suggest things to try when something doesn&rsquo;t work as intended via a glimpse of surface level domain knowledge. However, Claude usually doesn&rsquo;t know the best option from their suggestions and finding the right suggestion usually involves trying all options. However, this isn&rsquo;t too bad as Claude can quickly write the code to test all the options. Having domain knowledge can help in making decisions and save time.</li>
+      <li>Testing features is a must. Claude can sometimes struggle when features are interconnected or when editing code for a feature that has changed. Reminding Claude how things fit together or that a related feature has changed is enough to put them on the right track.</li>
+      <li>Claude can struggle with matching the specifications of the User Interface. This was something I struggled with on making the calibration feature. Despite feeding Claude mockups of what the screen should look like, they went in circles for a while changing nothing. I&rsquo;ve heard that clearing or compacting context can help Claude break out of these bad loops. Either way, changing the reasoning model and compacting context helped me push past this issue.</li>
+      <li>Claude can suggest things that sound really intelligent, but are just a waste of time. For example, I wanted to test a version of the HTR model that was trained on individual characters rather than lines of words. Claude suggested to take characters from the UJI Pen Characters dataset and use augmentation techniques to synthesize them onto the IAM Online dataset. This had many buzzwords that sounded cool and I wanted to learn about because I heard about them in my machine learning readings. It was a complete waste of time and in retrospect I should have known that I was just adding noise to the IAM Online dataset for no reason.</li>
+    </ul>
+    
+    <h3>Machine Learning</h3>
+    <ul>
+      <li>Pausing and resuming model training is common and can be done as long as all the necessary parameters are saved/checkpointed (optimizer, epoch, best CER, epochs without improvement, learning reduction).</li>
+      <li>Preprocessing is the single most important thing in machine learning. When learning how to use keras, I needed to preprocess the training samples to reduce noise (normalize, remove outliers, reduce features). However, this project showed me the opposite. I didn&rsquo;t need to preprocess any training data. I needed to preprocess the data being fed to the model for predictions. Both IAM Offline and Online are predicted on lines of words, while the canvas for the application can be a wall of text. I needed to break the text into lines to match the training data. Back when I was using the model trained on IAM Offline, using filters to make the canvas writing look more like handwritten text made small improvements to the HTR.</li>
+      <li>Another preprocessing related issue arose when I realized that the stroke order mattered for the IAM Online model. It occurred to me that if a user were to go back and edit previously written lines, the HTR prediction would suffer. To solve this, I changed the ordering of strokes to be based on their spatial position rather than temporal order. I also had to change the erase feature to get rid of complete strokes rather than what an ordinary drawing app eraser does.</li>
+      <li>The calibration feature uses a small amount of samples to fine tune the model. Ordinarily, a small amount of samples leads to overfitting. However, for this app, perhaps overfitting is desirable. In machine learning, we often want our model to generalize to as many users as possible, but the app is meant to be overfit to the calibrated user.</li>
+    </ul>
+    
+    <h2>Future Considerations</h2>
+    <ul>
+      <li>If I were to keep working on this app, I would like to get it to work on mobile devices as originally intended. I was using ONNX to make the HTR work on mobile, but getting the fine tuning feature to work required a great deal of extra effort, so I scrapped mobile support.</li>
+      <li>I wanted the smart grouping feature to be more robust. Currently, it relies on dashes being indented under a header. There are a couple of known cases where this falls apart due. For example, when a line of text bleeds into a line above or below, the model gets fed both lines at once. Also, if I use dots as bullets, the app starts to think that letters such as &ldquo;i&rdquo; or &ldquo;j&rdquo; are the start of a new bullet, despite adding special rules to counteract it. This comes back to the domain gap problem, where our model is trained on lines of words. To make it more robust in the way the app needs, I would need to train on data that looks like powerpoint slides. The app is already set up in a way where data could easily be collected from the app to train a new model via the smart grouping feature. However, this would require the user to accurately correct the detected text before submission.</li>
+    </ul>
+
+    <hr>
+
+    <footer style="font-size:14px; text-indent:0px">
+      <p>Email: bradenwin7@gmail.com</p>
+    </footer>
+  </div>
+</body>
+</html>
