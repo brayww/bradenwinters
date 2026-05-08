@@ -33,7 +33,7 @@ EMAIL: wintersb@uci.edu
     <div class="container">
       <h1>Notes App with AutoTranscribe</h1>
       <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/B9HT72GqO80?si=q0DEART8dw5T9B5x"></iframe>
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/halG9ius_N0?si=ZQ_vXngcKEHzmcYr"></iframe>
       </div>
       <h2>Productivity, Studying, Machine Learning</h2>
       <p>For people that like writing their notes rather than typing, but still want the convenience of having them in a digital format. Easily export to powerpoint or word for sharing.
@@ -99,7 +99,7 @@ EMAIL: wintersb@uci.edu
     <h3>Claude</h3>
     <ul>
       <li>Claude is very good at rapid prototyping and often makes the described feature correctly on the first try. In addition, Claude can usually debug errors or suggest things to try when something doesn&rsquo;t work as intended via a glimpse of surface level domain knowledge. However, Claude usually doesn&rsquo;t know the best option from their suggestions and finding the right suggestion usually involves trying all options. However, this isn&rsquo;t too bad as Claude can quickly write the code to test all the options. Having domain knowledge can help in making decisions and save time.</li>
-      <li>Testing features is a must. Claude can sometimes struggle when features are interconnected or when editing code for a feature that has changed. Reminding Claude how things fit together or that a related feature has changed is enough to put them on the right track.</li>
+      <li>Testing features is a must. Claude can sometimes struggle when features are interconnected or when editing code for a feature that has changed. For example, when I switched the data to IAM Online, the model needed to be fed stroke data rather than images. This silently broke the erase feature without Claude realizing because it could cause fragmented strokes. I had to realise it was broken and propose a solution, otherwise it would have flown under the radar. Reminding Claude how things fit together or that a related feature has changed is enough to put them on the right track.</li>
       <li>Claude can struggle with matching the specifications of the User Interface. This was something I struggled with on making the calibration feature. Despite feeding Claude mockups of what the screen should look like, they went in circles for a while changing nothing. I&rsquo;ve heard that clearing or compacting context can help Claude break out of these bad loops. Either way, changing the reasoning model and compacting context helped me push past this issue.</li>
       <li>Claude can suggest things that sound really intelligent, but are just a waste of time. For example, I wanted to test a version of the HTR model that was trained on individual characters rather than lines of words. Claude suggested to take characters from the UJI Pen Characters dataset and use augmentation techniques to synthesize them onto the IAM Online dataset. This had many buzzwords that sounded cool and I wanted to learn about because I heard about them in my machine learning readings. It was a complete waste of time and in retrospect I should have known that I was just adding noise to the IAM Online dataset for no reason.</li>
     </ul>
